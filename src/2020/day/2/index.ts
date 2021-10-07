@@ -52,6 +52,10 @@ function lineToPasswordCheck(line: string): PasswordCheck|null {
 // so I dont have to access it off of a named value:
 // `passwordCheck.password` is now just `password`
 function evaluatePassword({min, max, query, password}: PasswordCheck): boolean {
+  // The idea here is to split the string int a list of characters.
+  // and reduce the character list down to a number that is the count of all the
+  // queries. see my comments below to start to understand functional
+  // programming.
   const count = password.split('').reduce(
       (count, char) => query === char ? count + 1 : count, 0);
   return min <= count && count <= max;
