@@ -10,26 +10,26 @@ function numIncreasing([first, ...rest]: Array<number>): number {
       .count;
 }
 
-function createSlidingWindow(numbers: Array<number>): Array<number> {
+function createSlidingWindow([first, second, third, ...numbers]: Array<number>):
+    Array<number> {
   return numbers
       .reduce(
           ({windowSums, previousWindow}, current) => {
             const [_, ...rest] = previousWindow;
-            previousWindow = previousWindow.length === 3 ?
-                [...rest, current] :
-                [...previousWindow, current];
+            previousWindow = [...rest, current];
             return {
-              windowSums: previousWindow.length === 3 ?
+              windowSums:
                   [
                     ...windowSums,
                     previousWindow.reduce((acc, curr) => acc + curr, 0)
-                  ] :
-                  windowSums,
+                  ],
                   previousWindow
             }
           },
-          {windowSums: [], previousWindow: []} as
-              {windowSums: Array<number>, previousWindow: Array<number>})
+          {
+            windowSums: [first + second + third],
+            previousWindow: [first, second, third]
+          })
       .windowSums;
 }
 
