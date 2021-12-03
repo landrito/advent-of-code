@@ -8,6 +8,7 @@ function main() {
   program.parse(process.argv);
   const lines = read(program.opts().file);
   console.log(partOne(lines));
+  console.log(partOneRec(lines));
   console.log(partTwo(lines));
 }
 main();
@@ -19,6 +20,20 @@ interface Vector2D {
 function partOne(lines: Array<string>): number {
   const {x, y} = lines.map(lineToVector).reduce(sum, {x: 0, y: 0});
   return x * y
+}
+
+function partOneRec(lines: Array<string>): number {
+  const vectors = lines.map(lineToVector);
+  const helper =
+      (vectors: Array<Vector2D>, {x, y}: Vector2D = {x: 0, y: 0}): Vector2D => {
+        if (vectors.length === 0) {
+          return {x, y};
+        }
+        const [{x: curX, y: curY}, ...rest] = vectors;
+        return helper(rest, {x: x + curX, y: y + curY});
+      };
+  const {x, y} = helper(vectors);
+  return x * y;
 }
 
 function partTwo(lines: Array<string>): number {
