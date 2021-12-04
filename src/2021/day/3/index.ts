@@ -14,11 +14,11 @@ main();
 
 function partOne(lines: Array<string>) {
   const [firstBits, ...rest] = lines.map(lineToBits);
-  const tracker = rest.reduce((previous, current) => {
+  const oneCount = rest.reduce((previous, current) => {
     return previous.map((i, index) => i + oneCounter(current[index]));
   }, firstBits.map(oneCounter) as Array<number>);
-  const gamma = tracker.map(mostFrequent).join('');
-  const epsilon = tracker.map(leastFrequent).join('');
+  const gamma = oneCount.map(mostFrequent).join('');
+  const epsilon = oneCount.map(leastFrequent).join('');
   return parseInt(gamma, 2) * parseInt(epsilon, 2);
 }
 
