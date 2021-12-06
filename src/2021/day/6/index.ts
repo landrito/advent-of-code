@@ -22,9 +22,8 @@ function solution(numbers: Array<number>, days: number): number {
   counts =
       numbers.reduce((counts, v) => ({...counts, [v]: counts[v] + 1}), counts);
 
-  const _ = Array(9).fill(null);
   for (let i = 0; i < days; i++) {
-    counts = _.reduce(
+    counts = Object.keys(counts).reduce(
         (nc, _, index) => ({
           ...nc,
           ...(index === 8     ? {8: counts[0]} :
