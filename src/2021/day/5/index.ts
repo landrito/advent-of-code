@@ -31,26 +31,26 @@ function solution(lines: Array<Line>): number {
                              -1
     };
 
-    let current = {
-      x: start.x,
-      y: start.y,
-    };
+    let current = {...start};
     while (current.x !== end.x || current.y !== end.y) {
-      const strCoord = `${current.x},${current.y}`;
-      positions.set(
-          strCoord, positions.has(strCoord) ? positions.get(strCoord)! + 1 : 1);
+      increaseCount(positions, current);
       current = {
         x: current.x + vector.x,
         y: current.y + vector.y,
-      }
+      };
     }
-    const strCoord = `${end.x},${end.y}`;
-    positions.set(
-        strCoord, positions.has(strCoord) ? positions.get(strCoord)! + 1 : 1);
+    increaseCount(positions, end);
   }
   return [...positions.entries()].reduce((count, [_, value]) => {
     return value > 1 ? count + 1 : count;
   }, 0)
+}
+
+function increaseCount(
+    positions: Map<string, number>, coord: Coordinate): void {
+  const strCoord = `${coord.x},${coord.y}`;
+  positions.set(
+      strCoord, positions.has(strCoord) ? positions.get(strCoord)! + 1 : 1);
 }
 
 function inputToLines(lines: Array<string>): Array<Line> {
@@ -58,8 +58,8 @@ function inputToLines(lines: Array<string>): Array<Line> {
     const [start, _, end] = l.split(' ');
     return {
       start: commaDelimitedToCoordinate(start),
-          end: commaDelimitedToCoordinate(end)
-    }
+      end: commaDelimitedToCoordinate(end),
+    };
   });
 }
 
